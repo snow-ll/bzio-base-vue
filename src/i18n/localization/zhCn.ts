@@ -1,0 +1,60 @@
+export default {
+    common: {
+        login: '用户登录',
+        register: '用户注册',
+    },
+    menus: {
+        '/': '首页',
+        system: '系统管理',
+        user: '用户列表',
+        role: '角色列表',
+        assignRole: '角色分配',
+        dept: '部门列表',
+        menu: '菜单列表',
+    },
+    table: {
+        user: '用户',
+        role: '角色',
+        dept: '部门',
+        menu: '菜单',
+        username: '用户名',
+        nickname: '用户昵称',
+        password: '密码',
+        cPassword: '确认密码',
+        birthday: '出生日期',
+        sex: '性别',
+        certificateType: '证件类型',
+        certificateNum: '证件号',
+        mobileNumber: '手机号码',
+        phoneNumber: '电话号码',
+        email: '邮箱',
+        deptName: '单位',
+        status: '状态',
+        
+        roleName: '角色名称',
+        roleKey: '权限字符',
+
+        parentMenu: '上级菜单',
+        menuName: '菜单名称',
+        path: '菜单路由',
+        component: '组件路径',
+        icon: '图标',
+        perms: '权限字符',
+        isFrame: '是否外链',
+        visible: '显示状态',
+
+        orderNum: '顺序',
+        createDate: '创建时间',
+        
+        select: '选择',
+        action: '操作',
+    },
+    operate: {
+        search: '搜索',
+        add: '添加',
+        edit: '修改',
+        del: '删除',
+        confirm: '确认',
+        cancel: '取消',
+    }
+}
