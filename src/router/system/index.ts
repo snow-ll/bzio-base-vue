@@ -15,9 +15,9 @@ const systemMenuRouter = [
                 component: () => import('@/views/system/role/index.vue'),
             },
             {
-                path: '/assignRole',
-                name: 'assignRole',
-                component: () => import('@/views/system/role/components/assignRole.vue')
+                path: '/auth/:roleId',
+                name: 'auth',
+                component: () => import('@/views/system/role/components/auth/info.vue')
             },
             {
                 path: '/dept',
@@ -28,7 +28,17 @@ const systemMenuRouter = [
                 path: '/menu',
                 name: 'menu',
                 component: () => import('@/views/system/menu/index.vue')
-            }
+            },
+            {
+                path: '/dict',
+                name: 'dict',
+                component: () => import('@/views/system/dict/index.vue')
+            },
+            {
+                path: '/data/:dictType',
+                name: 'data',
+                component: () => import('@/views/system/dict/data.vue')
+            },
         ]
     },
     

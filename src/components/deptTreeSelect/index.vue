@@ -1,10 +1,11 @@
 <template>
   <el-tree-select
-      v-model="localDeptId"
+      v-model="selectedDeptId"
       :data="data"
       node-key="id"
       check-strictly
       :render-after-expand="false"
+      @change="handleSelectionChange"
   />
 </template>
 
@@ -17,30 +18,30 @@ const props = defineProps({
     type: String
   }
 })
+const emits = defineEmits(['deptChange'])
 
-const localDeptId = ref(props.deptId)
-const data = ref()
+const selectedDeptId = ref(props.deptId)
+const data = ref([])
 
 const loadData = () => {
   tree(null).then(res => {
     data.value = res.data
   })
 }
-loadData()
 
 watch(
     () => props.deptId,
     (newDeptId) => {
-      localDeptId.value = newDeptId
+      selectedDeptId.value = newDeptId
     }
 )
 
-watch(
-    localDeptId,
-    (newLocalDeptId) => {
-      localDeptId.value = newLocalDeptId
-    }
-)
+loadData()
+
+// 监听选中值的变化
+const handleSelectionChange = (selectedValue: any) => {
+  emits('deptChange', selectedValue)
+}
 </script>
 
 <style scoped>

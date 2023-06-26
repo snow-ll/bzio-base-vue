@@ -1,18 +1,18 @@
 import request, { AjaxResponse } from '../request'
 
-export const tree = (query: any) : Promise<AjaxResponse<any>> => {
-    return request({
-        url: '/system/menu/tree',
-        params: query
-    })
-}
-
 export const info = (menuId: string) : Promise<AjaxResponse<any>> => {
     return request({
         url: '/system/menu/info',
         params: {
             menuId: menuId
         }
+    })
+}
+
+export const tree = (query: any) : Promise<AjaxResponse<any>> => {
+    return request({
+        url: '/system/menu/tree',
+        params: query
     })
 }
 
@@ -24,9 +24,9 @@ export const save = (data: any) :Promise<AjaxResponse<any>> => {
     })
 }
 
-export const del = (menuIds: string[]) => {
+export const delBatch = (menuIds: string[]) => {
     return request({
-        url: '/system/menu/del',
+        url: '/system/menu/delBatch',
         method: 'POST',
         data: menuIds
     })

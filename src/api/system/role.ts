@@ -1,13 +1,5 @@
 import request, { AjaxResponse, TableResponse } from '@/api/request'
 
-
-export const list = (query: any) : Promise<TableResponse<any>> => {
-    return request({
-        url: '/system/role/list',
-        params: query
-    })
-}
-
 export const info = (roleId: string) : Promise<AjaxResponse<any>> => {
     return request({
         url: '/system/role/info',
@@ -17,12 +9,10 @@ export const info = (roleId: string) : Promise<AjaxResponse<any>> => {
     })
 }
 
-export const queryMenuIds = (roleId: string | undefined) : Promise<AjaxResponse<any>> => {
+export const list = (query: any) : Promise<TableResponse<any>> => {
     return request({
-        url: '/system/roleMenu/queryMenuIds',
-        params: {
-            roleId: roleId
-        }
+        url: '/system/role/list',
+        params: query
     })
 }
 

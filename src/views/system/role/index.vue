@@ -2,7 +2,7 @@
   <el-card class="search-container">
     <el-row :gutter="10">
       <el-col :span="7">
-        <el-input v-model="queryParam.roleName" :placeholder="$t('table.username')" clearable ></el-input>
+        <el-input v-model="queryParam.roleName" :placeholder="$t('table.roleName')" clearable ></el-input>
       </el-col>
       <el-button type="primary" :icon="Search" @click="initRoleList">
         {{ $t('operate.search') }}
@@ -11,7 +11,7 @@
   </el-card>
 
   <el-card>
-    <el-button type="primary" size="small" @click="handleInfoDialog(null)">
+    <el-button type="primary" size="small" @click="handleInfoDialog(null, 'add')" v-if="$store.getters.perms.includes('sys:role:add')">
       {{ $t('operate.add') }}
     </el-button>
     <el-table :data="tableData" style="width: 100%">
@@ -20,14 +20,24 @@
           v-for="(item, index) in options"
           :prop="item.prop"
           :label="$t(`table.${item.label}`)"
-          :key="index">
+          :key="index"
+      >
         <template v-slot="{ row }" v-if="item.prop === 'status'">
           <Dict dictType="enable_type" :key="dictKey" :dictValue="row.status" :timeout="500"></Dict>
         </template>
-        <template #default="{ row }" v-else-if="item.prop === 'action'">
-          <el-button type="primary" size="small" @click="handleInfoDialog(row)">编辑</el-button>
-          <el-button type="danger" size="small" @click="delRole(row.roleId)">删除</el-button>
-          <el-button type="danger" size="small" @click="assignRole(row.roleId)">分配角色</el-button>
+      </el-table-column>
+      <el-table-column
+          align="center"
+          prop="action" 
+          :label="$t('table.action')"
+          width="300px"
+          v-if="includesAny($store.getters.perms, ['sys:role:edit', 'sys:role:search', 'sys:role:delete', 'sys:role:auth'])"
+      >
+        <template #default="{ row }">
+          <el-button type="primary" size="small" @click="handleInfoDialog(row, 'edit')" v-if="$store.getters.perms.includes('sys:role:edit')">{{ $t('operate.edit') }}</el-button>
+          <el-button type="primary" size="small" @click="handleInfoDialog(row, 'view')" v-if="$store.getters.perms.includes('sys:role:search')">{{ $t('operate.view') }}</el-button>
+          <el-button type="danger" size="small" @click="delRole(row.roleId)" v-if="$store.getters.perms.includes('sys:role:delete')">{{ $t('operate.del') }}</el-button>
+          <el-button type="primary" size="small" @click="auth(row.roleId)" v-if="$store.getters.perms.includes('sys:role:auth')">{{ $t('operate.auth') }}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -50,8 +60,9 @@ import { list, del } from '@/api/system/role'
 import { isNull } from '@/util/object'
 import { TableResponse } from '@/api/request'
 import { setDictData } from '@/util/dict'
+import { includesAny } from '@/util/array'
 import Info from './components/info.vue'
-import router from "@/router";
+import router from '@/router'
 
 interface Role {
   roleId: string
@@ -91,10 +102,6 @@ const options = [
     label: 'status',
     prop: 'status'
   },
-  {
-    label: 'action',
-    prop: 'action',
-  },
 ]
 const dialog = ref<Dialog>({
   visible: false,
@@ -115,13 +122,11 @@ const initRoleList = async () => {
 }
 initRoleList()
 
-const handleInfoDialog = (row : Role | null) => {
-  if (isNull(row)) {
-    dialog.value.type = 'add'
-  } else {
-    dialog.value.type = 'edit'
+const handleInfoDialog = (row : Role | null, type: string) => {
+  if (!isNull(row)) {
     dialog.value.roleId = row?.roleId ?? ''
   }
+  dialog.value.type = type
   dialog.value.visible = true
 }
 
@@ -138,11 +143,11 @@ const delRole = (roleId: string) => {
   })
 }
 
-const assignRole = (roleId: string) => {
+const auth = (roleId: string) => {
   router.push({
-    name: 'assignRole',
+    name: 'auth',
     params: {
-      id: roleId
+      roleId: roleId
     },
   })
 }

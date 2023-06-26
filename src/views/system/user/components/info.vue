@@ -1,11 +1,11 @@
 <template>
-  <el-dialog
+  <el-dialog 
       :model-value="dialogVisible"
       :title="$t(`operate.${props.type}`) + $t('table.user')"
       width="40%"
       @close="handleClose"
   >
-    <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
+    <el-form ref="formRef" :model="form" :rules="rules" label-width="auto" :disabled="props.type === 'view'">
       <el-row>
         <el-col :span="12" hidden="hidden">
           <el-form-item :label="$t('table.userId')" prop="userId">
@@ -105,6 +105,14 @@
         </el-col>
 
         <el-col :span="12">
+          <el-form-item :label="$t('table.deptName')" prop="deptId">
+            <DeptTreeSelect :deptId="form.deptId" @deptChange="handleDeptSelectionChange"></DeptTreeSelect>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      
+      <el-row>
+        <el-col :span="12">
           <el-form-item :label="$t('table.role') + $t('table.status')" prop="status">
             <el-radio-group v-model="form.status">
               <el-radio
@@ -125,7 +133,7 @@
         <el-button @click="handleClose">
           {{ $t('operate.cancel') }}
         </el-button>
-        <el-button type="primary" @click="handleSave">
+        <el-button type="primary" @click="handleSave" :disabled="props.type === 'view'">
           {{ $t('operate.confirm') }}
         </el-button>
       </span>
@@ -156,10 +164,11 @@ interface UserInfo {
   email: string | undefined,
   fax: string | undefined,
   status: number,
+  deptId: string | undefined,
 }
 
 const props = defineProps({
-  username: {
+  userId: {
     type: String
   },
   type: {
@@ -183,6 +192,7 @@ const form = ref<UserInfo>({
   email: undefined,
   fax: undefined,
   status: 0,
+  deptId: undefined,
 })
 const rules = ref({
   username: [
@@ -199,8 +209,8 @@ const rules = ref({
   ],
 })
 
-const initUser = async (username: string) => {
-  const res = await info(username)
+const initUser = async (userId: string) => {
+  const res = await info(userId)
   if (!isNull(res.data)) {
     form.value = res.data
   }
@@ -242,13 +252,19 @@ const resetForm = () => {
     email: undefined,
     fax: undefined,
     status: 0,
+    deptId: form.value.deptId === '' ? undefined : '',
   }
 }
 
+// 监听来自 DeptTreeSelect 组件的选中值变化
+const handleDeptSelectionChange = (selectedValue: any) => {
+  form.value.deptId = selectedValue
+}
+
 watch(
-    () => props.username,
+    () => props.userId,
     () => {
-      initUser(props.username!)
+      initUser(props.userId!)
     },
     { deep: true, immediate: true }
 )

@@ -5,7 +5,7 @@
       width="40%"
       @close="handleClose"
   >
-    <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
+    <el-form ref="formRef" :model="form" :rules="rules" label-width="auto" :disabled="props.type === 'view'">
       <el-row>
         <el-col :span="12" hidden="hidden">
           <el-form-item prop="menuId">
@@ -15,7 +15,7 @@
       </el-row>
       
       <el-row>
-        <el-col :span="24">
+        <el-col :span="12">
           <el-form-item :label="$t('table.parentMenu')" prop="parentId">
             <el-tree-select
                 v-model="form.parentId"
@@ -44,23 +44,35 @@
       </el-row>
 
       <el-row>
-        <el-col :span="12">
-          <el-form-item :label="$t('table.path')" prop="path">
-            <el-input v-model="form.path"/>
-          </el-form-item>
-        </el-col>
-        
-        <el-col :span="12">
-          <el-form-item :label="$t('table.component')" prop="component">
-            <el-tooltip content="系统组件，用于区分i18n读取菜单名配置，实现中英文切换菜单" placement="top" >
-              <el-input v-model="form.component"/>
-            </el-tooltip>
+        <el-col :span="24">
+          <el-form-item :label="$t('table.menuType')" prop="menuType">
+            <el-radio-group v-model="form.menuType" @change="handleMenuTypeChange">
+              <el-radio label="catalogue">目录</el-radio>
+              <el-radio label="menu">菜单</el-radio>
+              <el-radio label="button">按钮</el-radio>
+            </el-radio-group>
           </el-form-item>
         </el-col>
       </el-row>
 
       <el-row>
-        <el-col :span="24">
+        <el-col :span="12" v-if="form.menuType!=='button'">
+          <el-form-item :label="$t('table.path')" prop="path">
+            <el-tooltip content="调用后台接口的地址" placement="top" >
+              <el-input v-model="form.path"/>
+            </el-tooltip>
+          </el-form-item>
+        </el-col>
+        
+        <el-col :span="12" v-if="form.menuType==='menu'">
+          <el-form-item :label="$t('table.menu') + $t('table.mark')" prop="component">
+            <el-tooltip content="用于区分i18n读取菜单名配置标识" placement="top" >
+              <el-input v-model="form.component"/>
+            </el-tooltip>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="12" v-if="form.menuType!=='button'">
           <el-form-item :label="$t('table.icon')" prop="icon">
             <el-select v-model="form.icon">
               <el-option
@@ -74,10 +86,16 @@
             </el-select>
           </el-form-item>
         </el-col>
-      </el-row>
-      
-      <el-row>
+
         <el-col :span="12">
+          <el-form-item :label="$t('table.perms')" prop="perms">
+            <el-tooltip content="控制器中定义的权限字符，如：@PreAuthorize(`@ss.hasPerm('system:user:list')`)" placement="top" >
+              <el-input v-model="form.perms"/>
+            </el-tooltip>
+          </el-form-item>
+        </el-col>
+        
+        <el-col :span="12" v-if="form.menuType!=='button'">
           <el-form-item :label="$t('table.visible')" prop="visible">
             <el-radio-group v-model="form.visible">
               <el-radio
@@ -91,7 +109,7 @@
           </el-form-item>
         </el-col>
 
-        <el-col :span="12">
+        <el-col :span="12" v-if="form.menuType!=='button'">
           <el-form-item :label="$t('table.menu') + $t('table.status')" prop="status">
             <el-radio-group v-model="form.status">
               <el-radio
@@ -104,10 +122,8 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
-      </el-row>
-
-      <el-row>
-        <el-col :span="12">
+        
+        <el-col :span="12" v-if="form.menuType!=='button'">
           <el-form-item :label="$t('table.isFrame')" prop="isFrame">
             <el-radio-group v-model="form.isFrame">
               <el-radio
@@ -120,14 +136,6 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
-
-        <el-col :span="12">
-          <el-form-item :label="$t('table.perms')" prop="perms">
-            <el-tooltip content="控制器中定义的权限字符，如：@PreAuthorize(`@ss.hasPerm('system:user:list')`)" placement="top" >
-              <el-input v-model="form.perms"/>
-            </el-tooltip>
-          </el-form-item>
-        </el-col>
       </el-row>
     </el-form>
     
@@ -136,7 +144,7 @@
         <el-button @click="handleClose">
           {{ $t('operate.cancel') }}
         </el-button>
-        <el-button type="primary" @click="handleSave">
+        <el-button type="primary" @click="handleSave" :disabled="props.type === 'view'">
           {{ $t('operate.confirm') }}
         </el-button>
       </span>
@@ -176,6 +184,13 @@ const props = defineProps({
   },
   menuId: {
     type: String
+  },
+  parentId: {
+    type: String
+  },
+  key: {
+    type: Number,
+    default: 0
   }
 })
 const emits = defineEmits(['update:modelValue', 'init', 'reset'])
@@ -190,7 +205,7 @@ const form = ref<MenuInfo>({
   path: undefined,
   component: undefined,
   isFrame: 0,
-  menuType: undefined,
+  menuType: 'menu',
   visible: 0,
   status: 0,
   perms: undefined,
@@ -211,10 +226,6 @@ const rules = ref({
   ],
 })
 const data = ref()
-// const treeProps = {
-//   id: 'id',
-//   label: 'label',
-// }
 
 const loadData = () => {
   tree(null).then(res => {
@@ -233,29 +244,6 @@ const select = () => {
   }
 }
 
-// const load = async (node: any, resolve: any) => {
-//   // 加载一个根节点
-//   if (typeof node.data.value === 'undefined') {
-//     return resolve([
-//       {
-//         value: null,
-//         label: "根节点",
-//         level: treeProps.level++
-//       }
-//     ]);
-//   }
-//  
-//   if (node.data.isLeaf) return resolve([])
-//   const result = await child(node.data.value)
-//   const childs = result.data.map((item: any) => ({
-//     value: item.menuId,
-//     label: item.menuName,
-//     isLeaf: item.isLeaf != 0,
-//     isRoot: false,
-//     level: treeProps.level++
-//   }))
-//   resolve(childs)
-// }
 
 const initMenu = async (menuId: string) => {
   const res = await info(menuId)
@@ -284,6 +272,10 @@ const handleSave = () => {
   })
 }
 
+const handleMenuTypeChange = (value: string) => {
+  form.value.menuType = value
+}
+
 const resetForm = ()=> {
   form.value = {
     menuId: undefined,
@@ -294,7 +286,7 @@ const resetForm = ()=> {
     path: undefined,
     component: undefined,
     isFrame: 0,
-    menuType: undefined,
+    menuType: 'menu',
     visible: 0,
     status: 0,
     perms: undefined,
@@ -306,6 +298,22 @@ watch(
     () => props.menuId,
     () => {
       initMenu(props.menuId!)
+    },
+    { deep: true, immediate: true },
+)
+
+watch(
+    () => props.parentId,
+    () => {
+      form.value.parentId = props.parentId
+    },
+    { deep: true, immediate: true },
+)
+
+watch(
+    () => props.key,
+    () => {
+      loadData()
     },
     { deep: true, immediate: true },
 )

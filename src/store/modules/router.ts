@@ -2,6 +2,7 @@ import { Module } from 'vuex'
 import { RootState } from '../types'
 import { RouteRecord, RouteRecordName } from 'vue-router'
 import router from '@/router'
+import Router from "@/router";
 
 export interface RouterState {
     activeView: string
@@ -11,10 +12,6 @@ export interface RouterState {
 interface View {
     name: string,
     label: string,
-}
-
-const clearCache = () => {
-    
 }
 
 const routerModule: Module<RouterState, RootState> = {
@@ -33,6 +30,7 @@ const routerModule: Module<RouterState, RootState> = {
             if (!isViewExist) {
                 state.viewList.push({ name: routeName, label: routeLabel })
             }
+            console.log("xxx:" + JSON.stringify(route))
             // 将激活路由切换为该路由
             state.activeView = routeName
         },
@@ -54,10 +52,12 @@ const routerModule: Module<RouterState, RootState> = {
                 // 反之，仍将激活路由设置为原索引值对应的路由
                 state.activeView = state.viewList[viewIndex].name
             }
-            // 清除路由缓存
-            clearCache()
             // 跳转路由
             router.push({ name: state.activeView })
+        },
+        REVERT_VIEW(state) {
+            state.activeView= '/'
+            state.viewList = [{ name: '/', label: '首页' }]
         }
     },
     actions: {

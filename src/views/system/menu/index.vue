@@ -13,10 +13,10 @@
   <br>
 
   <el-card>
-    <el-button type="primary" size="small" @click="handleInfoDialog(null)">
+    <el-button type="primary" size="small" @click="handleInfoDialog(null)" v-if="$store.getters.perms.includes('sys:menu:add')">
       {{ $t('operate.add') }}
     </el-button>
-    <el-button type="primary" size="small" @click="delMenu()">
+    <el-button type="primary" size="small" @click="delMenu()" v-if="$store.getters.perms.includes('sys:user:delete')">
       {{ $t('operate.del') }}
     </el-button>
     <el-table
@@ -45,18 +45,19 @@
     </el-table>
   </el-card>
   
-  <Info v-model="dialog.visible" :type="dialog.type" :menuId="dialog.menuId" :parentId="dialog.parentId" @init="initMenuList" @reset="resetDialog"/>
+  <Info v-model="dialog.visible" :type="dialog.type" :key="dictKey" :menuId="dialog.menuId" :parentId="dialog.parentId" @init="initMenuList" @reset="resetDialog"/>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { tree, del } from '@/api/system/menu'
+import { useStore } from 'vuex'
+import { tree, delBatch } from '@/api/system/menu'
 import { setDictData } from '@/util/dict'
 import { AjaxResponse } from '@/api/request'
 import { isNull } from '@/util/object'
 import { ElMessageBox } from 'element-plus'
+import { includesAny } from '@/util/array'
 import Info from './components/info.vue'
-
 
 export interface Menu {
   id: string,
@@ -74,6 +75,7 @@ interface Dialog {
   parentId: string
 }
 
+const store = useStore()
 const queryParam = ref({
   menuName: '',
 })
@@ -86,6 +88,10 @@ const options = [
   {
     label: 'menuName',
     prop: 'label'
+  },
+  {
+    label: 'perms',
+    prop: 'perms'
   },
   {
     label: 'orderNum',
@@ -137,7 +143,7 @@ const delMenu = () => {
       cancelButtonText: '取消',
       type: 'warning'
     }).then(() => {
-      del(ids)
+      delBatch(ids)
           .catch(()=> {
             ElMessageBox.alert("删除失败！", '提示', {
               confirmButtonText: '确定',
@@ -150,10 +156,24 @@ const delMenu = () => {
 }
 
 const handleInfoDialog = (row : Menu | null) => {
+  // 判断是否包含权限
+  if (!includesAny(store.getters.perms, ['sys:menu:search', 'sys:menu:edit'])) {
+    return;
+  }
+  
+  if (ids.length > 1) {
+    ElMessageBox.alert('请选择至多一条数据进行添加！')
+    return
+  }
   if (isNull(row)) {
     dialog.value.type = 'add'
+    dialog.value.parentId = ids[0]
   } else {
-    dialog.value.type = 'edit'
+    if (store.getters.perms.includes('sys:menu:edit')) {
+      dialog.value.type = 'edit'
+    } else {
+      dialog.value.type = 'view'
+    }
     dialog.value.menuId = row?.id ?? ''
     dialog.value.parentId = row?.pid ?? ''
   }
@@ -162,6 +182,7 @@ const handleInfoDialog = (row : Menu | null) => {
 
 const resetDialog = () => {
   dialog.value.menuId = ''
+  dialog.value.parentId = ''
 }
 </script>
 

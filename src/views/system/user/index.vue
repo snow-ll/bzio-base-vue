@@ -14,7 +14,7 @@
   </el-card>
   
   <el-card>
-    <el-button type="primary" size="small" @click="handleInfoDialog(null)">
+    <el-button type="primary" size="small" @click="handleInfoDialog(null, 'add')" v-if="$store.getters.perms.includes('sys:user:add')">
       {{ $t('operate.add') }}
     </el-button>
     <el-table :data="tableData" style="width: 100%">
@@ -23,18 +23,28 @@
           v-for="(item, index) in options"
           :prop="item.prop"
           :label="$t(`table.${item.label}`)" 
-          :key="index">
+          :key="index"
+      >
         <template v-slot="{ row }" v-if="item.prop === 'status'">
           <el-switch
               v-model="row.status"
               :active-value="0"
               :inactive-value="1"
+              :disabled="!$store.getters.perms.includes('sys:user:edit')"
               @change="handleStatusChange(row)"
           ></el-switch>
         </template>
-        <template #default="{ row }" v-else-if="item.prop === 'action' ">
-          <el-button type="primary" size="small" @click="handleInfoDialog(row)">编辑</el-button>
-          <el-button type="danger" size="small" @click="delUser(row.username)">删除</el-button>
+      </el-table-column>
+      <el-table-column 
+          align="center"
+          prop="action"
+          :label="$t('table.action')"
+          v-if="includesAny($store.getters.perms, ['sys:user:edit', 'sys:user:search', 'sys:user:delete'])"
+      >
+        <template v-slot="{ row }">
+          <el-button type="primary" size="small" @click="handleInfoDialog(row, 'edit')" v-if="$store.getters.perms.includes('sys:user:edit')">{{ $t('operate.edit') }}</el-button>
+          <el-button type="primary" size="small" @click="handleInfoDialog(row, 'view')" v-if="$store.getters.perms.includes('sys:user:search')">{{ $t('operate.view') }}</el-button>
+          <el-button type="danger" size="small" @click="delUser(row.username)" v-if="$store.getters.perms.includes('sys:user:delete')">{{ $t('operate.del') }}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -46,20 +56,21 @@
     />
   </el-card>
   
-  <Info v-model="dialog.visible" :username="dialog.username" :type="dialog.type" @init="initUserList" @reset="resetDialog"/>
+  <Info v-model="dialog.visible" :userId="dialog.userId" :type="dialog.type" @init="initUserList" @reset="resetDialog"/>
 </template>
 
 <script lang="ts" setup>
 import { Search } from '@element-plus/icons-vue'
 import { ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
-import {list, changeStatus, del, info} from '@/api/system/user'
+import { list, changeStatus, del } from '@/api/system/user'
 import { isNull } from '@/util/object'
 import { TableResponse } from '@/api/request'
 import { setDictData } from '@/util/dict'
 import Info from './components/info.vue'
+import { includesAny } from '@/util/array'
 
-interface User {
+export interface User {
   userId: string
   username: string
   nickname: string
@@ -70,7 +81,7 @@ interface User {
 
 interface Dialog {
   visible: boolean
-  username: string | undefined
+  userId: string | undefined
   type: string
 }
 
@@ -103,14 +114,10 @@ const options = [
     label: 'status',
     prop: 'status'
   },
-  {
-    label: 'action',
-    prop: 'action',
-  },
 ]
 const dialog = ref<Dialog>({
   visible: false,
-  username: '',
+  userId: '',
   type: '',
 })
 const dicts = ['enable_type', 'sex_type']
@@ -135,13 +142,11 @@ const handleStatusChange = (row: User) => {
   });
 }
 
-const handleInfoDialog = async (row : User | null) => {
-  if (isNull(row)) {
-    dialog.value.type = 'add'
-  } else {
-    dialog.value.type = 'edit'
-    dialog.value.username = row?.username ?? ''
+const handleInfoDialog = async (row: User | null, type: string) => {
+  if (!isNull(row)) {
+    dialog.value.userId = row?.userId ?? ''
   }
+  dialog.value.type = type
   dialog.value.visible = true
 }
 
@@ -159,7 +164,7 @@ const delUser = (username: string) => {
 }
 
 const resetDialog = () => {
-  dialog.value.username = undefined
+  dialog.value.userId = undefined
 }
 </script>
 

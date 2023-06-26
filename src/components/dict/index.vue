@@ -8,6 +8,7 @@
 import {ref, watch} from 'vue'
 import { useStore } from 'vuex'
 import { toRaw } from '@vue/reactivity'
+import { isNull } from '@/util/object'
 
 const store = useStore()
 const props = defineProps({
@@ -34,7 +35,7 @@ const dictData = ref<string>('')
 const getData = (): void => {
   const d = store.getters.dict.get(props.dictType)
   const list = toRaw(d)
-  if (typeof list !== "undefined") {
+  if (typeof list !== "undefined" && !isNull(list)) {
     list.map((item: { dictValue: string; dictLabel: string }) => {
       if (!props.dictValue.toString().indexOf(item.dictValue)) {
         dictData.value = item.dictLabel

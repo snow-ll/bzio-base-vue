@@ -13,17 +13,17 @@ const routes: Array<RouteRecordRaw> = [
     },
     {
         path: '/login',
-        name: 'Login',
+        name: 'login',
         component: () => import('../views/login.vue')
     },
     {
         path: '/register',
-        name: 'Register',
+        name: 'register',
         component: () => import('../views/register.vue')
     },
     {
         path: '/test',
-        name: 'Test',
+        name: 'test',
         component: () => import('../views/test.vue')
     },
 ]
@@ -34,7 +34,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    if (!to.meta.noKeepAlive) {
+    if (!to.meta.noKeepAlive && to.path!=='/login') {
         // 添加标签
         store.commit('router/SET_VIEW', to)
         // 将路由缓存

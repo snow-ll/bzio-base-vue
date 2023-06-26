@@ -1,5 +1,15 @@
 import request, { AjaxResponse, TableResponse } from '../request'
 
+export const info = (userId: string) : Promise<AjaxResponse<any>> => {
+    return request({
+        url: '/system/user/info',
+        method: 'GET',
+        params: {
+            userId: userId
+        }
+    })
+}
+
 export const list = (query: any) : Promise<TableResponse<any>> => {
     return request({
         url: '/system/user/list',
@@ -8,17 +18,7 @@ export const list = (query: any) : Promise<TableResponse<any>> => {
     })
 }
 
-export const info = (username: string) => {
-    return request({
-        url: '/system/user/info',
-        method: 'GET',
-        params: {
-            username: username
-        }
-    })
-}
-
-export const save = (data: any) => {
+export const save = (data: any) : Promise<AjaxResponse<any>> => {
     return request({
         url: '/system/user/save',
         method: 'POST',
@@ -26,7 +26,7 @@ export const save = (data: any) => {
     })
 }
 
-export const del = (username: string) => {
+export const del = (username: string) : Promise<AjaxResponse<any>> => {
     return request({
         url: '/system/user/del',
         method: 'POST',
@@ -34,7 +34,7 @@ export const del = (username: string) => {
     })
 }
 
-export const changeStatus = (userId: string, status: number) => {
+export const changeStatus = (userId: string, status: number) : Promise<AjaxResponse<any>> => {
     return request({
         url: '/system/user/changeStatus',
         method: 'POST',

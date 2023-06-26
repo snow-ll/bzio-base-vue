@@ -1,7 +1,7 @@
 import store from '@/store'
 import { toRaw } from '@vue/reactivity'
 
-export const setDictData = (dictType: any[]) => {
+export const setDictData = (dictType: string[]) => {
     dictType.map(item => {
         store.dispatch('dict/setData', item)
             .then((ref: any) => {

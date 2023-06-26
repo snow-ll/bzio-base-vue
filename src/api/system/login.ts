@@ -1,4 +1,4 @@
-import request from '../request'
+import request, {AjaxResponse} from '../request'
 
 export const login = (data: any) => {
     return request({
@@ -8,6 +8,12 @@ export const login = (data: any) => {
     })
 }
 
+export const getInfo = () => {
+    return request({
+        url: '/auth/getInfo',
+        method: 'GET',
+    })
+}
 
 export const register = (data: any) => {
     return request({
@@ -21,5 +27,18 @@ export const getCodeImg = () => {
     return request({
         url: 'code',
         method: 'GET',
+    })
+}
+
+export const getRouter = () : Promise<AjaxResponse<any>> => {
+    return request({
+        url: '/auth/getRouter',
+    })
+}
+
+export const refreshToken = () : Promise<AjaxResponse<any>> => {
+    return request({
+        url: '/auth/refreshToken',
+        method: 'POST'
     })
 }

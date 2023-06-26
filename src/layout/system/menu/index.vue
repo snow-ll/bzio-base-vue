@@ -39,12 +39,12 @@
 
 <script setup>
 import { ref } from 'vue'
-import { tree } from '@/api/system/menu'
+import { getRouter } from '@/api/system/login'
 import SubMenu from './subMenu.vue'
 
 const menuList = ref([])
 const initMenuList = async() => {
-  const res = await tree(null)
+  const res = await getRouter()
   menuList.value = res.data
 }
 initMenuList()

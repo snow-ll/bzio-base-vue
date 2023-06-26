@@ -5,7 +5,7 @@
       width="50%"
       @close="handleClose"
   >
-    <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
+    <el-form ref="formRef" :model="form" :rules="rules" label-width="auto" :disabled="props.type === 'view'">
       <el-row>
         <el-col :span="12" hidden="hidden">
           <el-form-item :label="$t('table.roleId')" prop="userId">
@@ -79,7 +79,7 @@
         <el-button @click="handleClose">
           {{ $t('operate.cancel') }}
         </el-button>
-        <el-button type="primary" @click="handleSave">
+        <el-button type="primary" @click="handleSave" :disabled="props.type === 'view'">
           {{ $t('operate.confirm') }}
         </el-button>
       </span>
@@ -89,7 +89,8 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue'
-import {save, info, queryMenuIds} from '@/api/system/role'
+import { save, info } from '@/api/system/role'
+import { queryMenuIds } from '@/api/system/roleMenu'
 import { tree } from '@/api/system/menu'
 import { toRaw } from '@vue/reactivity'
 import { isNull } from '@/util/object'
