@@ -37,12 +37,9 @@ const routerModule: Module<RouterState, RootState> = {
                 state.viewList.push(view)
             } else if(!isPathExist) {
                 const viewIndex = state.viewList.findIndex((view: View) => view.name === routeName)
-                console.log("xxx: " + JSON.stringify(state.viewList))
-                console.log("xxx: " + viewIndex)
                 // 删除该路由
                 state.viewList.splice(viewIndex, 1)
                 state.viewList.push(view)
-                console.log("xxx: " + JSON.stringify(state.viewList))
             }
             // 将激活路由切换为该路由
             state.activeView = routeName
