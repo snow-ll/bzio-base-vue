@@ -1,8 +1,7 @@
-import { Module } from 'vuex'
+import { Module, useStore } from 'vuex'
 import { RootState } from '../types'
 import { RouteRecord, RouteRecordName } from 'vue-router'
 import router from '@/router'
-import Router from "@/router";
 
 export interface RouterState {
     activeView: string
@@ -12,31 +11,45 @@ export interface RouterState {
 interface View {
     name: string,
     label: string,
+    path: string,
 }
+
+
+const store = useStore()
 
 const routerModule: Module<RouterState, RootState> = {
     namespaced: true,
     state: () => ({
         activeView: '/',
-        viewList: [{ name: '/', label: '首页' }]
+        viewList: [{ name: '/', label: '首页', path: "/"}]
     }),
     mutations: {
         SET_VIEW(state, route: RouteRecord) {
+            const routePath = route.path! as string
             const routeName = route.name! as string
             const routeLabel = route.meta!.label as string
             // 判断路由是否已经存在
             const isViewExist = state.viewList.some((view: any) => view.name === routeName)
+            const isPathExist = state.viewList.some((view: any) => view.path === routePath)
             // 路由不存在则将路由加入viewList
+            let view: View = { name: routeName, label: routeLabel, path: routePath }
             if (!isViewExist) {
-                state.viewList.push({ name: routeName, label: routeLabel })
+                state.viewList.push(view)
+            } else if(!isPathExist) {
+                const viewIndex = state.viewList.findIndex((view: View) => view.name === routeName)
+                console.log("xxx: " + JSON.stringify(state.viewList))
+                console.log("xxx: " + viewIndex)
+                // 删除该路由
+                state.viewList.splice(viewIndex, 1)
+                state.viewList.push(view)
+                console.log("xxx: " + JSON.stringify(state.viewList))
             }
-            console.log("xxx:" + JSON.stringify(route))
             // 将激活路由切换为该路由
             state.activeView = routeName
         },
         REMOVE_VIEW(state, routeName: string | RouteRecordName) {
             // 如果传进来的路由是工作台，则不继续进行
-            if (routeName === 'workbench') return
+            if (routeName === '/') return
             // 获取该view的索引值
             const viewIndex = state.viewList.findIndex((view: View) => view.name === routeName)
             // 删除该路由
@@ -57,7 +70,7 @@ const routerModule: Module<RouterState, RootState> = {
         },
         REVERT_VIEW(state) {
             state.activeView= '/'
-            state.viewList = [{ name: '/', label: '首页' }]
+            state.viewList = [{ name: '/', label: '首页', path: "/"}]
         }
     },
     actions: {

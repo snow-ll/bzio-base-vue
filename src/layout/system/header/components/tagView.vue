@@ -6,7 +6,7 @@
           :class="{ active: activeView === view.name }"
           v-for="(view, index) in viewList"
           :key="view.name"
-          @click="onTagClick(view.name)"
+          @click="onTagClick(view.path)"
           ref="tagItems"
       >
         {{ $t(`menus.${view.name}`) }}
@@ -34,8 +34,8 @@ const router = useRouter()
 const activeView = computed(() => store.getters.activeView)
 const viewList = computed(() => store.getters.viewList)
 
-const onTagClick = (viewName: RouteRecordName) => {
-  router.push({ name: viewName })
+const onTagClick = (viewName: string) => {
+  router.push({ path: viewName })
 }
 
 const onTagClose = (viewName: RouteRecordName) => {
