@@ -73,5 +73,6 @@ export default {
         auth: '授权',
         confirm: '确认',
         cancel: '取消',
+        close: '关闭'
     }
 }

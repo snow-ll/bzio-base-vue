@@ -8,7 +8,7 @@ export interface RouterState {
     viewList: View[]
 }
 
-interface View {
+export interface View {
     name: string,
     label: string,
     path: string,
@@ -44,6 +44,12 @@ const routerModule: Module<RouterState, RootState> = {
             // 将激活路由切换为该路由
             state.activeView = routeName
         },
+        SET_CURRENT(state, view: View) {
+            // 刷新路由
+            state.viewList.push(view)
+            // 跳转路由
+            router.push({ name: state.activeView })
+        },
         REMOVE_VIEW(state, routeName: string | RouteRecordName) {
             // 如果传进来的路由是工作台，则不继续进行
             if (routeName === '/') return
@@ -71,7 +77,16 @@ const routerModule: Module<RouterState, RootState> = {
         }
     },
     actions: {
-        
+        removeView({ commit }, routeName: RouteRecordName) {
+            commit('REMOVE_VIEW', routeName)
+        },
+        removeOthers({ commit }, view: View) {
+            commit('REVERT_VIEW', view)
+            commit('SET_CURRENT', view)
+        },
+        revertView({ commit }, routeName: RouteRecordName) {
+            commit('REVERT_VIEW', routeName)
+        }
     }
 }
 
