@@ -1,7 +1,7 @@
 <template>
   <el-dialog
       :model-value="dialogVisible"
-      :title="$t(`operate.${props.type}`) + $t('table.menu')"
+      :title="$t(`operate.${props.type}`) + $t('fields.menu')"
       width="40%"
       @close="handleClose"
   >
@@ -16,7 +16,7 @@
       
       <el-row>
         <el-col :span="12">
-          <el-form-item :label="$t('table.parentMenu')" prop="parentId">
+          <el-form-item :label="$t('fields.parentMenu')" prop="parentId">
             <el-tree-select
                 v-model="form.parentId"
                 :data="data"
@@ -31,13 +31,13 @@
 
       <el-row>
         <el-col :span="12">
-          <el-form-item :label="$t('table.menuName')" prop="menuName">
+          <el-form-item :label="$t('fields.menuName')" prop="menuName">
             <el-input v-model="form.menuName"/>
           </el-form-item>
         </el-col>
         
         <el-col :span="12">
-          <el-form-item :label="$t('table.orderNum')" prop="orderNum">
+          <el-form-item :label="$t('fields.orderNum')" prop="orderNum">
             <el-input-number  v-model="form.orderNum"></el-input-number>
           </el-form-item>
         </el-col>
@@ -45,7 +45,7 @@
 
       <el-row>
         <el-col :span="24">
-          <el-form-item :label="$t('table.menuType')" prop="menuType">
+          <el-form-item :label="$t('fields.menuType')" prop="menuType">
             <el-radio-group v-model="form.menuType" @change="handleMenuTypeChange">
               <el-radio label="catalogue">目录</el-radio>
               <el-radio label="menu">菜单</el-radio>
@@ -57,7 +57,7 @@
 
       <el-row>
         <el-col :span="12" v-if="form.menuType!=='button'">
-          <el-form-item :label="$t('table.path')" prop="path">
+          <el-form-item :label="$t('fields.path')" prop="path">
             <el-tooltip content="调用后台接口的地址" placement="top" >
               <el-input v-model="form.path"/>
             </el-tooltip>
@@ -65,7 +65,7 @@
         </el-col>
         
         <el-col :span="12" v-if="form.menuType==='menu'">
-          <el-form-item :label="$t('table.menu') + $t('table.mark')" prop="component">
+          <el-form-item :label="$t('fields.menu') + $t('fields.mark')" prop="component">
             <el-tooltip content="用于区分i18n读取菜单名配置标识" placement="top" >
               <el-input v-model="form.component"/>
             </el-tooltip>
@@ -73,7 +73,7 @@
         </el-col>
 
         <el-col :span="12" v-if="form.menuType!=='button'">
-          <el-form-item :label="$t('table.icon')" prop="icon">
+          <el-form-item :label="$t('fields.icon')" prop="icon">
             <el-select v-model="form.icon">
               <el-option
                   v-for="item in icons"
@@ -88,7 +88,7 @@
         </el-col>
 
         <el-col :span="12">
-          <el-form-item :label="$t('table.perms')" prop="perms">
+          <el-form-item :label="$t('fields.perms')" prop="perms">
             <el-tooltip content="控制器中定义的权限字符，如：@PreAuthorize(`@ss.hasPerm('system:user:list')`)" placement="top" >
               <el-input v-model="form.perms"/>
             </el-tooltip>
@@ -96,7 +96,7 @@
         </el-col>
         
         <el-col :span="12" v-if="form.menuType!=='button'">
-          <el-form-item :label="$t('table.visible')" prop="visible">
+          <el-form-item :label="$t('fields.visible')" prop="visible">
             <el-radio-group v-model="form.visible">
               <el-radio
                   v-for="dict in toRaw(store.getters.dict).get('visible_type')"
@@ -110,7 +110,7 @@
         </el-col>
 
         <el-col :span="12" v-if="form.menuType!=='button'">
-          <el-form-item :label="$t('table.menu') + $t('table.status')" prop="status">
+          <el-form-item :label="$t('fields.menu') + $t('fields.status')" prop="status">
             <el-radio-group v-model="form.status">
               <el-radio
                   v-for="dict in toRaw(store.getters.dict).get('enable_type')"
@@ -124,7 +124,7 @@
         </el-col>
         
         <el-col :span="12" v-if="form.menuType!=='button'">
-          <el-form-item :label="$t('table.isFrame')" prop="isFrame">
+          <el-form-item :label="$t('fields.isFrame')" prop="isFrame">
             <el-radio-group v-model="form.isFrame">
               <el-radio
                   v-for="dict in toRaw(store.getters.dict).get('yes_no_type')"

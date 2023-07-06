@@ -1,14 +1,14 @@
 <template>
   <el-dialog 
       :model-value="dialogVisible"
-      :title="$t(`operate.${props.type}`) + $t('table.user')"
+      :title="$t(`operate.${props.type}`) + $t('fields.user')"
       width="40%"
       @close="handleClose"
   >
     <el-form ref="formRef" :model="form" :rules="rules" label-width="auto" :disabled="props.type === 'view'">
       <el-row>
         <el-col :span="12" hidden="hidden">
-          <el-form-item :label="$t('table.userId')" prop="userId">
+          <el-form-item :label="$t('fields.userId')" prop="userId">
             <el-input v-model="form.userId"></el-input>
           </el-form-item>
         </el-col>
@@ -16,13 +16,13 @@
 
       <el-row>
         <el-col :span="12">
-          <el-form-item :label="$t('table.username')" prop="username">
+          <el-form-item :label="$t('fields.username')" prop="username">
             <el-input v-model="form.username" v-bind:readonly="props.type !== 'add'"></el-input>
           </el-form-item>
         </el-col>
 
         <el-col :span="12">
-          <el-form-item :label="$t('table.nickname')" prop="nickname">
+          <el-form-item :label="$t('fields.nickname')" prop="nickname">
             <el-input v-model="form.nickname"/>
           </el-form-item>
         </el-col>
@@ -30,13 +30,13 @@
 
       <el-row v-if="props.type === 'add'">
         <el-col :span="12">
-          <el-form-item :label="$t('table.password')" prop="password">
+          <el-form-item :label="$t('fields.password')" prop="password">
             <el-input type="password" v-model="form.password"></el-input>
           </el-form-item>
         </el-col>
 
         <el-col :span="12">
-          <el-form-item :label="$t('table.cPassword')" prop="cPassword">
+          <el-form-item :label="$t('fields.cPassword')" prop="cPassword">
             <el-input type="password" v-model="form.cPassword"/>
           </el-form-item>
         </el-col>
@@ -44,7 +44,7 @@
 
       <el-row>
         <el-col :span="12">
-          <el-form-item :label="$t('table.birthday')" prop="birthday">
+          <el-form-item :label="$t('fields.birthday')" prop="birthday">
             <el-date-picker
                 type="date"
                 v-model="form.birthday"
@@ -54,7 +54,7 @@
         </el-col>
 
         <el-col :span="12">
-          <el-form-item :label="$t('table.sex')" prop="sex">
+          <el-form-item :label="$t('fields.sex')" prop="sex">
             <el-select v-model="form.sex">
               <el-option
                   v-for="dict in toRaw(store.getters.dict).get('sex_type')"
@@ -71,13 +71,13 @@
 
       <el-row>
         <el-col :span="12">
-          <el-form-item :label="$t('table.certificateType')">
+          <el-form-item :label="$t('fields.certificateType')">
             <el-input v-model="form.certificateType"></el-input>
           </el-form-item>
         </el-col>
 
         <el-col :span="12">
-          <el-form-item :label="$t('table.certificateNum')">
+          <el-form-item :label="$t('fields.certificateNum')">
             <el-input v-model="form.certificateNum"></el-input>
           </el-form-item>
         </el-col>
@@ -85,13 +85,13 @@
 
       <el-row>
         <el-col :span="12">
-          <el-form-item :label="$t('table.mobileNumber')">
+          <el-form-item :label="$t('fields.mobileNumber')">
             <el-input v-model="form.mobileNumber"></el-input>
           </el-form-item>
         </el-col>
 
         <el-col :span="12">
-          <el-form-item :label="$t('table.phoneNumber')">
+          <el-form-item :label="$t('fields.phoneNumber')">
             <el-input v-model="form.phoneNumber"></el-input>
           </el-form-item>
         </el-col>
@@ -99,13 +99,13 @@
 
       <el-row>
         <el-col :span="12">
-          <el-form-item :label="$t('table.email')">
+          <el-form-item :label="$t('fields.email')">
             <el-input v-model="form.email"></el-input>
           </el-form-item>
         </el-col>
 
         <el-col :span="12">
-          <el-form-item :label="$t('table.deptName')" prop="deptId">
+          <el-form-item :label="$t('fields.deptName')" prop="deptId">
             <DeptTreeSelect :deptId="form.deptId" @deptChange="handleDeptSelectionChange"></DeptTreeSelect>
           </el-form-item>
         </el-col>
@@ -113,7 +113,7 @@
       
       <el-row>
         <el-col :span="12">
-          <el-form-item :label="$t('table.role') + $t('table.status')" prop="status">
+          <el-form-item :label="$t('fields.role') + $t('fields.status')" prop="status">
             <el-radio-group v-model="form.status">
               <el-radio
                   v-for="dict in toRaw(store.getters.dict).get('enable_type')"

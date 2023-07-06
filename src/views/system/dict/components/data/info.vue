@@ -1,7 +1,7 @@
 <template>
   <el-dialog
       :model-value="dialogVisible"
-      :title="$t(`operate.${props.type}`) + $t('table.data')"
+      :title="$t(`operate.${props.type}`) + $t('fields.data')"
       width="30%"
       @close="handleClose"
   >
@@ -22,7 +22,7 @@
 
       <el-row>
         <el-col :span="24">
-          <el-form-item :label="$t('table.dictLabel')" prop="roleName">
+          <el-form-item :label="$t('fields.dictLabel')" prop="roleName">
             <el-input v-model="form.dictLabel" ></el-input>
           </el-form-item>
         </el-col>
@@ -30,7 +30,7 @@
 
       <el-row>
         <el-col :span="24">
-          <el-form-item :label="$t('table.dictValue')" prop="roleKey">
+          <el-form-item :label="$t('fields.dictValue')" prop="roleKey">
             <el-input v-model="form.dictValue"/>
           </el-form-item>
         </el-col>
@@ -38,13 +38,13 @@
 
       <el-row>
         <el-col :span="12">
-          <el-form-item :label="$t('table.orderNum')" prop="orderNum">
+          <el-form-item :label="$t('fields.orderNum')" prop="orderNum">
             <el-input-number  v-model="form.orderNum"></el-input-number>
           </el-form-item>
         </el-col>
         
         <el-col :span="12">
-          <el-form-item :label="$t('table.role') + $t('table.status')" prop="status">
+          <el-form-item :label="$t('fields.role') + $t('fields.status')" prop="status">
             <el-radio-group v-model="form.status">
               <el-radio
                   v-for="dict in toRaw(store.getters.dict).get('enable_type')"

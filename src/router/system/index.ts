@@ -39,6 +39,11 @@ const systemMenuRouter = [
                 name: 'data',
                 component: () => import('@/views/system/dict/data.vue')
             },
+            {
+                path: '/config',
+                name: 'config',
+                component: () => import('@/views/system/config/index.vue')
+            },
         ]
     },
     

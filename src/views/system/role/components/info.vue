@@ -1,14 +1,14 @@
 <template>
   <el-dialog
       :model-value="dialogVisible"
-      :title="$t(`operate.${props.type}`) + $t('table.role')"
+      :title="$t(`operate.${props.type}`) + $t('fields.role')"
       width="50%"
       @close="handleClose"
   >
     <el-form ref="formRef" :model="form" :rules="rules" label-width="auto" :disabled="props.type === 'view'">
       <el-row>
         <el-col :span="12" hidden="hidden">
-          <el-form-item :label="$t('table.roleId')" prop="userId">
+          <el-form-item :label="$t('fields.roleId')" prop="userId">
             <el-input v-model="form.roleId"></el-input>
           </el-form-item>
         </el-col>
@@ -16,13 +16,13 @@
 
       <el-row>
         <el-col :span="24">
-          <el-form-item :label="$t('table.roleName')" prop="roleName">
+          <el-form-item :label="$t('fields.roleName')" prop="roleName">
             <el-input v-model="form.roleName" ></el-input>
           </el-form-item>
         </el-col>
 
         <el-col :span="24">
-          <el-form-item :label="$t('table.roleKey')" prop="roleKey">
+          <el-form-item :label="$t('fields.roleKey')" prop="roleKey">
             <el-input v-model="form.roleKey"/>
           </el-form-item>
         </el-col>
@@ -30,13 +30,13 @@
       
       <el-row>
         <el-col :span="24">
-          <el-form-item :label="$t('table.orderNum')" prop="orderNum">
+          <el-form-item :label="$t('fields.orderNum')" prop="orderNum">
             <el-input-number  v-model="form.orderNum"></el-input-number>
           </el-form-item>
         </el-col>
 
         <el-col :span="24">
-          <el-form-item :label="$t('table.role') + $t('table.status')" prop="status">
+          <el-form-item :label="$t('fields.role') + $t('fields.status')" prop="status">
             <el-radio-group v-model="form.status">
               <el-radio
                   v-for="dict in toRaw(store.getters.dict).get('enable_type')"

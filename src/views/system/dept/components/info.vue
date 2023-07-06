@@ -1,14 +1,14 @@
 <template>
   <el-dialog
       :model-value="dialogVisible"
-      :title="$t(`operate.${props.type}`) + $t('table.dept')"
+      :title="$t(`operate.${props.type}`) + $t('fields.dept')"
       width="40%"
       @close="handleClose"
   >
     <el-form ref="formRef" :model="form" :rules="rules" label-width="auto" :disabled="props.type === 'view'">
       <el-row>
         <el-col :span="12" hidden="hidden">
-          <el-form-item :label="$t('table.deptId')" prop="deptId">
+          <el-form-item :label="$t('fields.deptId')" prop="deptId">
             <el-input v-model="form.deptId"></el-input>
           </el-form-item>
         </el-col>
@@ -16,7 +16,7 @@
 
       <el-row>
         <el-col :span="24">
-          <el-form-item :label="$t('table.parentDept')" prop="parentId">
+          <el-form-item :label="$t('fields.parentDept')" prop="parentId">
             <el-tree-select
                 v-model="form.parentId"
                 :data="data"
@@ -30,13 +30,13 @@
 
       <el-row>
         <el-col :span="12">
-          <el-form-item :label="$t('table.deptName')" prop="deptName">
+          <el-form-item :label="$t('fields.deptName')" prop="deptName">
             <el-input v-model="form.deptName"/>
           </el-form-item>
         </el-col>
 
         <el-col :span="12">
-          <el-form-item :label="$t('table.orderNum')" prop="orderNum">
+          <el-form-item :label="$t('fields.orderNum')" prop="orderNum">
             <el-input-number v-model="form.orderNum"></el-input-number>
           </el-form-item>
         </el-col>
@@ -44,13 +44,13 @@
 
       <el-row>
         <el-col :span="12">
-          <el-form-item :label="$t('table.leader')" prop="leader">
+          <el-form-item :label="$t('fields.leader')" prop="leader">
             <el-input v-model="form.leader"></el-input>
           </el-form-item>
         </el-col>
 
         <el-col :span="12">
-          <el-form-item :label="$t('table.phone')" prop="phone">
+          <el-form-item :label="$t('fields.phone')" prop="phone">
             <el-input v-model="form.phone"/>
           </el-form-item>
         </el-col>
@@ -58,7 +58,7 @@
       
       <el-row>
         <el-col :span="12">
-          <el-form-item :label="$t('table.email')" prop="email">
+          <el-form-item :label="$t('fields.email')" prop="email">
             <el-input v-model="form.email"></el-input>
           </el-form-item>
         </el-col>

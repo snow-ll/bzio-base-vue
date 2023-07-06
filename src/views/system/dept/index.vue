@@ -2,7 +2,7 @@
   <el-card class="search-container">
     <el-row :gutter="10">
       <el-col :span="7">
-        <el-input v-model="queryParam.deptName" :placeholder="$t('table.deptName')" clearable ></el-input>
+        <el-input v-model="queryParam.deptName" :placeholder="$t('fields.deptName')" clearable ></el-input>
       </el-col>
       <el-button type="primary" :icon="Search" @click="initDeptList">
         {{ $t('operate.search') }}
@@ -11,25 +11,30 @@
   </el-card>
 
   <el-card>
-    <el-button type="primary" size="small" @click="handleInfoDialog(null)" v-if="$store.getters.perms.includes('sys:dept:add')">
-      {{ $t('operate.add') }}
-    </el-button>
+    <el-tooltip content="单选选择一列，在当前级别新建（选中高亮）" placement="top" >
+      <el-button type="primary" size="small" @click="handleInfoDialog(null)" v-if="$store.getters.perms.includes('sys:dept:add')">
+        {{ $t('operate.add') }}
+      </el-button>
+    </el-tooltip>
     <el-button type="primary" size="small" @click="delDept(null)" v-if="$store.getters.perms.includes('sys:dept:delete')">
       {{ $t('operate.del') }}
     </el-button>
     <el-table 
         style="width: 100%"
         row-key="id"
+        highlight-current-row
         :data="tableData"
         :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
+        @current-change="handleCurrentChange"
         @selection-change="handleSelectionChange"
     >
       <el-table-column
           align="center"
           v-for="(item, index) in options"
           :prop="item.prop"
-          :label="$t(`table.${item.label}`)"
-          :key="index">
+          :label="$t(`fields.${item.label}`)"
+          :key="index"
+      >
         <template v-slot="{ row }" v-if="item.prop === 'label'">
           <a style="color:blue;cursor:pointer" @click="handleInfoDialog(row)">{{ row.label }}</a>
         </template>
@@ -113,6 +118,7 @@ const dialog = ref<Dialog>({
   type: '',
 })
 const ids: string[] = []
+const currentId = ref<string>()
 const dicts = ['enable_type']
 const dictKey = ref(0);
 setDictData(dicts)
@@ -125,6 +131,11 @@ const initDeptList = async () => {
 }
 initDeptList()
 
+const handleCurrentChange = (dept: Dept) => {
+  if (!isNull(dept)) {
+    currentId.value = dept.id
+  }
+}
 
 const handleSelectionChange = (selection: Dept[]) => {
   ids.splice(0, ids.length);
@@ -138,14 +149,10 @@ const handleInfoDialog = (row : Dept | null) => {
   if (!includesAny(store.getters.perms, ['sys:menu:search', 'sys:menu:edit'])) {
     return;
   }
-
-  if (ids.length > 1) {
-    ElMessageBox.alert('请选择至多一条数据进行添加！')
-    return
-  }
+  
   if (isNull(row)) {
     dialog.value.type = 'add'
-    dialog.value.parentId = ids[0]
+    dialog.value.parentId = currentId.value
   } else {
     if (store.getters.perms.includes('sys:menu:edit')) {
       dialog.value.type = 'edit'

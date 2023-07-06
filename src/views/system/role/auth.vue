@@ -1,17 +1,17 @@
 <template>
   <el-dialog
       :model-value="dialogVisible"
-      :title="$t('table.user') + $t(`operate.auth`)"
+      :title="$t('fields.user') + $t(`operate.auth`)"
       width="55%"
       @close="handleClose"
   >
     <el-card class="search-container">
       <el-row :gutter="10">
         <el-col :span="7">
-          <el-input v-model="queryParam.username" :placeholder="$t('table.username')" clearable ></el-input>
+          <el-input v-model="queryParam.username" :placeholder="$t('fields.username')" clearable ></el-input>
         </el-col>
         <el-col :span="7">
-          <el-input v-model="queryParam.nickname" :placeholder="$t('table.nickname')" clearable ></el-input>
+          <el-input v-model="queryParam.nickname" :placeholder="$t('fields.nickname')" clearable ></el-input>
         </el-col>
         <el-button type="primary" :icon="Search" @click="initUserList">
           {{ $t('operate.search') }}
@@ -29,7 +29,7 @@
             align="center"
             v-for="(item, index) in options"
             :prop="item.prop"
-            :label="$t(`table.${item.label}`)"
+            :label="$t(`fields.${item.label}`)"
             :key="index">
           <template v-slot="{ row }" v-if="item.prop === 'select'">
             <el-table-column type="selection" width="55"></el-table-column>

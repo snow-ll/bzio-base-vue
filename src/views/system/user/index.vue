@@ -2,10 +2,10 @@
   <el-card class="search-container">
     <el-row :gutter="10">
       <el-col :span="7">
-        <el-input v-model="queryParam.username" :placeholder="$t('table.username')" clearable ></el-input>
+        <el-input v-model="queryParam.username" :placeholder="$t('fields.username')" clearable ></el-input>
       </el-col>      
       <el-col :span="7">
-        <el-input v-model="queryParam.nickname" :placeholder="$t('table.nickname')" clearable ></el-input>
+        <el-input v-model="queryParam.nickname" :placeholder="$t('fields.nickname')" clearable ></el-input>
       </el-col>
       <el-button type="primary" :icon="Search" @click="initUserList">
         {{ $t('operate.search') }}
@@ -22,7 +22,7 @@
           align="center"
           v-for="(item, index) in options"
           :prop="item.prop"
-          :label="$t(`table.${item.label}`)" 
+          :label="$t(`fields.${item.label}`)" 
           :key="index"
       >
         <template v-slot="{ row }" v-if="item.prop === 'status'">
@@ -38,7 +38,7 @@
       <el-table-column 
           align="center"
           prop="action"
-          :label="$t('table.action')"
+          :label="$t('fields.action')"
           v-if="includesAny($store.getters.perms, ['sys:user:edit', 'sys:user:search', 'sys:user:delete'])"
       >
         <template v-slot="{ row }">

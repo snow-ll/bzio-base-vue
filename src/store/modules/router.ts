@@ -46,6 +46,7 @@ const routerModule: Module<RouterState, RootState> = {
         },
         SET_CURRENT(state, view: View) {
             // 刷新路由
+            state.activeView = view.name
             state.viewList.push(view)
             // 跳转路由
             router.push({ name: state.activeView })

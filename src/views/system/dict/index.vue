@@ -2,7 +2,7 @@
   <el-card class="search-container">
     <el-row :gutter="10">
       <el-col :span="7">
-        <el-input v-model="queryParam.dictName" :placeholder="$t('table.dictName')" clearable ></el-input>
+        <el-input v-model="queryParam.dictName" :placeholder="$t('fields.dictName')" clearable ></el-input>
       </el-col>
       <el-button type="primary" :icon="Search" @click="initDictList">
         {{ $t('operate.search') }}
@@ -19,7 +19,7 @@
           align="center"
           v-for="(item, index) in options"
           :prop="item.prop"
-          :label="$t(`table.${item.label}`)"
+          :label="$t(`fields.${item.label}`)"
           :key="index"
       >
         <template v-slot="{ row }" v-if="item.prop === 'dictType'">
@@ -32,7 +32,7 @@
       <el-table-column
           align="center"
           prop="action"
-          :label="$t('table.action')"
+          :label="$t('fields.action')"
           width="300px"
           v-if="includesAny($store.getters.perms, ['sys:dict:edit', 'sys:dict:search', 'sys:dict:delete'])"
       >

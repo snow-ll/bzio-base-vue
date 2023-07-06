@@ -2,19 +2,20 @@ export default {
     common: {
         login: '用户登录',
         register: '用户注册',
-    },
-    menus: {
-        '/': '首页',
-        system: '系统管理',
-        user: '用户列表',
-        role: '角色列表',
-        auth: '角色分配',
-        dept: '部门列表',
-        menu: '菜单列表',
+        },
+        menus: {
+            '/': '首页',
+            system: '系统管理',
+            user: '用户列表',
+            role: '角色列表',
+            auth: '角色分配',
+            dept: '部门列表',
+            menu: '菜单列表',
         dict: '字典列表',
-        data: '字典数据',
+        data: '字典数据列表',
+        config: '系统配置列表',
     },
-    table: {
+    fields: {
         user: '用户',
         role: '角色',
         dept: '部门',
@@ -47,7 +48,7 @@ export default {
         path: '菜单路由',
         mark: '标识',
         icon: '图标',
-        perms: '权限字符',
+        perms: '权限字符',  
         isFrame: '是否外链',
         visible: '显示状态',
         menuType: '菜单类型',
@@ -57,6 +58,10 @@ export default {
         dictValue: "字典键值",
         dictLabel: "字典数据",
         note: "备注",
+        
+        configName: "配置名称",
+        configKey: "配置键值",
+        configValue: "配置属性",
         
         orderNum: '顺序',
         createDate: '创建时间',

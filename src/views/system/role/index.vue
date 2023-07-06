@@ -2,7 +2,7 @@
   <el-card class="search-container">
     <el-row :gutter="10">
       <el-col :span="7">
-        <el-input v-model="queryParam.roleName" :placeholder="$t('table.roleName')" clearable ></el-input>
+        <el-input v-model="queryParam.roleName" :placeholder="$t('fields.roleName')" clearable ></el-input>
       </el-col>
       <el-button type="primary" :icon="Search" @click="initRoleList">
         {{ $t('operate.search') }}
@@ -19,7 +19,7 @@
           align="center"
           v-for="(item, index) in options"
           :prop="item.prop"
-          :label="$t(`table.${item.label}`)"
+          :label="$t(`fields.${item.label}`)"
           :key="index"
       >
         <template v-slot="{ row }" v-if="item.prop === 'status'">
@@ -29,7 +29,7 @@
       <el-table-column
           align="center"
           prop="action" 
-          :label="$t('table.action')"
+          :label="$t('fields.action')"
           width="300px"
           v-if="includesAny($store.getters.perms, ['sys:role:edit', 'sys:role:search', 'sys:role:delete', 'sys:role:auth'])"
       >

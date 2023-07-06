@@ -9,7 +9,7 @@ export default {
         user: 'user list',
         menu: 'menu list',
     },
-    table: {
+    fields: {
         user: 'user',
         menu: 'menu',
         username: 'username',
