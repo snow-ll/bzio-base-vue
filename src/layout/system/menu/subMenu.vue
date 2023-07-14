@@ -4,8 +4,8 @@
       <svg-icon :icon=item.icon />
     </div>
     <span>
-        {{ $t(`menus.${item.component}`) }}
-      </span>
+      {{ item.label }}
+    </span>
   </el-menu-item>
   
   <el-sub-menu v-else :index="item.id" :key="item.id">
@@ -14,7 +14,7 @@
         <svg-icon :icon=item.icon />
       </div>
       <span>
-        {{ $t(`menus.${item.component}`) }}
+      {{ item.label }}
       </span>
     </template>
 
