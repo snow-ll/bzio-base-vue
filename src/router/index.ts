@@ -2,8 +2,6 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import systemMenuRouter from './system'
 import store from '@/store'
 
-const dynamicImport = (path: string) => () => import(`../views/${path}.vue`);
-
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/',

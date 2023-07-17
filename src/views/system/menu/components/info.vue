@@ -56,7 +56,7 @@
       </el-row>
 
       <el-row>
-        <el-col :span="12" v-if="form.menuType!=='button'">
+        <el-col :span="12" v-if="form.menuType==='menu'">
           <el-form-item :label="$t('fields.path')" prop="path">
             <el-tooltip content="调用后台接口的地址" placement="top" >
               <el-input v-model="form.path"/>
@@ -64,9 +64,9 @@
           </el-form-item>
         </el-col>
         
-        <el-col :span="12" v-if="form.menuType==='menu'">
-          <el-form-item :label="$t('fields.menu') + $t('fields.mark')" prop="component">
-            <el-tooltip content="用于区分i18n读取菜单名配置标识" placement="top" >
+        <el-col :span="12" v-if="form.menuType!=='button'">
+          <el-form-item :label="$t('fields.component')" prop="component">
+            <el-tooltip content="组件路由" placement="top" >
               <el-input v-model="form.component"/>
             </el-tooltip>
           </el-form-item>

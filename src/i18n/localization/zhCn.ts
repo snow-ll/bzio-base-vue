@@ -46,7 +46,7 @@ export default {
         parentMenu: '上级菜单',
         menuName: '菜单名称',
         path: '菜单路由',
-        mark: '标识',
+        component: '组件路由',
         icon: '图标',
         perms: '权限字符',  
         isFrame: '是否外链',
