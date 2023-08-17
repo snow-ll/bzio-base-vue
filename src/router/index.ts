@@ -1,14 +1,23 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import systemMenuRouter from './system'
 import store from '@/store'
 
+// 静态路由
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
         name: '/',
         component: () => import('../layout/index.vue'),
         children: [
-            ...systemMenuRouter
+            {
+                path: '/data/:dictType',
+                name: 'data',
+                component: () => import('@/views/system/dict/data.vue')
+            },
+            {
+                path: '/auth/:roleId',
+                name: 'auth',
+                component: () => import('@/views/system/role/components/auth/info.vue')
+            },
         ]
     },
     {

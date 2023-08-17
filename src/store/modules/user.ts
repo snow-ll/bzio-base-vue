@@ -2,7 +2,9 @@ import { Module } from 'vuex'
 import { RootState } from '../types'
 import { login as loginApi, getInfo } from '@/api/system/login'
 import { setTokenTime } from '@/util/auth'
+import { isNull } from '@/util/object'
 import router from '@/router'
+import store from '@/store'
 
 export interface UserState {
     token: string
@@ -42,12 +44,14 @@ const authModule: Module<UserState, RootState> = {
                     .catch((err: any) => {
                         reject(err)
                     })
-            }) 
+            })
         },
         setUserInfo({ commit }) {
-            getInfo().then(res => {
-                commit('SET_USER_INFO', res.data)
-            })
+            if (isNull(store.getters.router)) {
+                getInfo().then(res => {
+                    commit('SET_USER_INFO', res.data)
+                })
+            }
         },
         logout({ commit }) {
             commit('SET_TOKEN', '')

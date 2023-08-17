@@ -1,5 +1,5 @@
 <template>
-  <el-menu-item v-if="!item.children.length" :index="item.path">
+  <el-menu-item v-if="!item.children.length"  @click="jump(item.path)">
     <div>
       <svg-icon :icon=item.icon />
     </div>
@@ -18,12 +18,20 @@
       </span>
     </template>
 
-    <SubMenu v-for="it in item.children" :index="it.path" :key="it" :item="it"></SubMenu>
+    <SubMenu v-for="it in item.children" :key="it" :item="it"></SubMenu>
   </el-sub-menu>
 </template>
 
-<script setup>
+<script lang="ts" setup>
+import router from '@/router'
+
 defineProps(['item'])
+
+const jump = (path: string) => {
+  router.push({
+    name: path,
+  })
+}
 </script>
 
 <style scoped>

@@ -40,12 +40,18 @@
 <script setup>
 import { ref } from 'vue'
 import { getRouter } from '@/api/system/login'
+import { isNull } from '@/util/object'
 import SubMenu from './subMenu.vue'
+import store from '@/store'
 
 const menuList = ref([])
 const initMenuList = async() => {
-  const res = await getRouter()
-  menuList.value = res.data
+  if (isNull(store.getters.router)) {
+    const res = await getRouter()
+    menuList.value = res.data
+  } else {
+    menuList.value = store.getters.router
+  }
 }
 initMenuList()
 </script>

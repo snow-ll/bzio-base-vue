@@ -6,6 +6,7 @@ import router from '@/router'
 export interface RouterState {
     activeView: string
     viewList: View[]
+    router: any[]
 }
 
 export interface View {
@@ -21,7 +22,8 @@ const routerModule: Module<RouterState, RootState> = {
     namespaced: true,
     state: () => ({
         activeView: '/',
-        viewList: [{ name: '/', label: '首页', path: "/"}]
+        viewList: [{ name: '/', label: '首页', path: "/"}],
+        router: [],
     }),
     mutations: {
         SET_VIEW(state, route: RouteRecord) {
@@ -75,6 +77,9 @@ const routerModule: Module<RouterState, RootState> = {
         REVERT_VIEW(state) {
             state.activeView= '/'
             state.viewList = [{ name: '/', label: '首页', path: "/"}]
+        },
+        SET_ROUTER(state, router) {
+            state.router = router
         }
     },
     actions: {
@@ -87,6 +92,9 @@ const routerModule: Module<RouterState, RootState> = {
         },
         revertView({ commit }, routeName: RouteRecordName) {
             commit('REVERT_VIEW', routeName)
+        },
+        addRouter({ commit }, router) {
+            commit('SET_ROUTER', router)
         }
     }
 }
