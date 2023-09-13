@@ -73,6 +73,5 @@ service.interceptors.response.use(res => {
             })
         }
     }
-    return Promise.reject(new Error(error.response.data.msg))
 })
 export default service

@@ -105,7 +105,9 @@ export const loadingRouter = (): Promise<void> => {
                 // 未加载路由的情况，进行加载
                 getRouter()
                     .then(res => {
-                        addRouter(res.data)
+                        if (res) {
+                            addRouter(res.data)
+                        }
                         resolve()
                     })
             })
