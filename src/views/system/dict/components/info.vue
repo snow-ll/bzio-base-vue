@@ -95,7 +95,6 @@ const props = defineProps({
 })
 const emits = defineEmits(['update:modelValue', 'init', 'reset'])
 const formRef = ref<any>(null)
-const menuRef = ref<any>(null)
 const form = ref<DictInfo>({
   dictId: undefined,
   dictName: undefined,

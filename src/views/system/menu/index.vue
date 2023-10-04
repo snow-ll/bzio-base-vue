@@ -78,7 +78,7 @@ interface Dialog {
   visible: boolean
   type: string
   menuId: string
-  parentId: string
+  parentId: string | undefined
 }
 
 const store = useStore()
@@ -176,7 +176,7 @@ const handleInfoDialog = (row : Menu | null) => {
   
   if (isNull(row)) {
     dialog.value.type = 'add'
-    dialog.value.parentId = currentId.value ?? ''
+    dialog.value.parentId = currentId.value ?? undefined
   } else {
     if (store.getters.perms.includes('sys:menu:edit')) {
       dialog.value.type = 'edit'
@@ -184,7 +184,7 @@ const handleInfoDialog = (row : Menu | null) => {
       dialog.value.type = 'view'
     }
     dialog.value.menuId = row?.id ?? ''
-    dialog.value.parentId = row?.pid ?? ''
+    dialog.value.parentId = row?.pid ?? undefined
   }
   dialog.value.visible = true
 }

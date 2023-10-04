@@ -67,8 +67,8 @@ import { list, changeStatus, del } from '@/api/system/user'
 import { isNull } from '@/util/object'
 import { TableResponse } from '@/api/request'
 import { setDictData } from '@/util/dict'
-import Info from './components/info.vue'
 import { includesAny } from '@/util/array'
+import Info from './components/info.vue'
 
 export interface User {
   userId: string

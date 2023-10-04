@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import {ref, watch} from 'vue'
+import { ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { toRaw } from '@vue/reactivity'
 import { isNull } from '@/util/object'

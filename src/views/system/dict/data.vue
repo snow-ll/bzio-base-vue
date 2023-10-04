@@ -63,7 +63,7 @@ import { setDictData } from '@/util/dict'
 import { includesAny } from '@/util/array'
 import Info from './components/data/info.vue'
 
-interface DictType {
+interface DictData {
   dictCode: string
   dictValue: string
   dictLabel: string
@@ -87,7 +87,7 @@ const queryParam = ref({
   pageSize: 10,
 })
 const total = ref(0)
-const tableData = ref<DictType[]>([])
+const tableData = ref<DictData[]>([])
 const options = [
   {
     label: 'dictLabel',
@@ -118,7 +118,7 @@ const dictKey = ref(0);
 setDictData(dicts)
 
 const initDataList = async () => {
-  const res : TableResponse<DictType> = await dataList(queryParam.value)
+  const res : TableResponse<DictData> = await dataList(queryParam.value)
   total.value = res.total
   tableData.value = res.rows
 
@@ -126,7 +126,7 @@ const initDataList = async () => {
 }
 initDataList()
 
-const handleInfoDialog = (row : DictType | null, type: string) => {
+const handleInfoDialog = (row : DictData | null, type: string) => {
   if (!isNull(row)) {
     dialog.value.dictCode = row?.dictCode ?? ''
   }

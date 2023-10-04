@@ -6,14 +6,14 @@ export default {
     menus: {
         '/': '首页',
         system: '系统管理',
-        user: '用户管理',
-        role: '角色管理',
+        user: '用户列表',
+        role: '角色列表',
         auth: '角色分配',
-        dept: '部门管理',
-        menu: '菜单管理',
-        dict: '字典管理',
-        data: '字典数据管理',
-        config: '系统配置管理',
+        dept: '部门列表',
+        menu: '菜单列表',
+        dict: '字典列表',
+        data: '字典数据列表',
+        config: '系统配置列表',
     },
     fields: {
         user: '用户',
@@ -53,16 +53,16 @@ export default {
         visible: '显示状态',
         menuType: '菜单类型',
 
-        dictName: "字典名称",
-        dictType: "字典类型",
-        dictValue: "字典键值",
-        dictLabel: "字典数据",
-        note: "备注",
+        dictName: '字典名称',
+        dictType: '字典类型',
+        dictValue: '字典键值',
+        dictLabel: '字典数据',
+        note: '备注',
         
-        configName: "配置名称",
-        configKey: "配置键值",
-        configValue: "配置属性",
-        
+        configName: '配置名称',
+        configKey: '配置键值',
+        configValue: '配置属性',
+
         orderNum: '顺序',
         createDate: '创建时间',
         
@@ -74,10 +74,15 @@ export default {
         view: '查看',
         add: '添加',
         edit: '编辑',
+        save: '保存',
         del: '删除',
         auth: '授权',
         confirm: '确认',
         cancel: '取消',
-        close: '关闭'
+        close: '关闭',
+        nextStep: '下一步',
+        backStep: '上一步',
+        back: '返回',
+        refreshList: '刷新列表',
     }
 }
